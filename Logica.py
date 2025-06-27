@@ -28,53 +28,7 @@ def calc(num1, num2, operator):
   else:
       return None
 
-def handleMath(exercise):
-  # Le pongo un guión bajo al inicio porque "continue" es una keyword (o sea, una palabra reservada)
-  _continue = True
-  while _continue:
-    points = 0
-
-    if exercise == 3:
-      minVal, maxVal = 0, 100
-      operator = "+"
-    elif exercise >= 4:
-      diff = input("Elija nivel (facil, medio, dificil): ").lower()
-      minVal, maxVal = getByDifficulty(diff)
-
-      if exercise == 4:
-        operator = "+"
-      elif exercise >= 5:
-        operator = input("Elija operación (+, -, *, /): ")
-    
-    for x in range(1, 11):
-      num1 = getRandom(minVal, maxVal)
-      num2 = getRandom(minVal, maxVal)
-      
-      if operator == "/" and num2 == 0:
-        num2 = 1
-      
-      result = calc(num1, num2, operator)
-      if result is None:
-        print("Error interno en el cálculo.")
-        continue
-
-      print(f"{x} ¿Cuánto es {num1} {operator} {num2}?")
-      try:
-        response = int(input("R => "))
-        if response == result:
-          print("Correcto!\n")
-          points = points + 1
-        else:
-          print(f"Incorrecto... La respuesta era {result}")
-      except:
-         print("Ingresaste un valor inválido.\n")
-    print(f"\n Puntaje: {points}/10")
-    if exercise == 6:
-       again = input("¿Desea seguir practicando? (s/n): ").lower()
-       if again != "s":
-          _continue = False
-    else:
-       _continue = False
+# --- FUNCIONES DE PROCESAMIENTO DE TEXTO ---
 
 def removeSpecialCharacters(string):
   cleanText = ""
@@ -152,6 +106,54 @@ def exerciseHandler(exercise):
       return exerciseHandler(exercise)
     else:
       print("¡Nos vemos!")
+
+def handleMath(exercise):
+  # Le pongo un guión bajo al inicio porque "continue" es una keyword (o sea, una palabra reservada)
+  _continue = True
+  while _continue:
+    points = 0
+
+    if exercise == 3:
+      minVal, maxVal = 0, 100
+      operator = "+"
+    elif exercise >= 4:
+      diff = input("Elija nivel (facil, medio, dificil): ").lower()
+      minVal, maxVal = getByDifficulty(diff)
+
+      if exercise == 4:
+        operator = "+"
+      elif exercise >= 5:
+        operator = input("Elija operación (+, -, *, /): ")
+    
+    for x in range(1, 11):
+      num1 = getRandom(minVal, maxVal)
+      num2 = getRandom(minVal, maxVal)
+      
+      if operator == "/" and num2 == 0:
+        num2 = 1
+      
+      result = calc(num1, num2, operator)
+      if result is None:
+        print("Error interno en el cálculo.")
+        continue
+
+      print(f"{x} ¿Cuánto es {num1} {operator} {num2}?")
+      try:
+        response = int(input("R => "))
+        if response == result:
+          print("Correcto!\n")
+          points = points + 1
+        else:
+          print(f"Incorrecto... La respuesta era {result}")
+      except:
+         print("Ingresaste un valor inválido.\n")
+    print(f"\n Puntaje: {points}/10")
+    if exercise == 6:
+       again = input("¿Desea seguir practicando? (s/n): ").lower()
+       if again != "s":
+          _continue = False
+    else:
+       _continue = False
 
 def main():
   print("Bienvenido al programa de Martín Ezequiel Monzón para el segundo parcial.\n")

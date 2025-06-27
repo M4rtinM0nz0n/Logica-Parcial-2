@@ -1,35 +1,113 @@
-def removeSpecialCharacters(string):
-    cleanText = ""
-    alphabet = [
-        'a', 'b', 'c', 'd', 'e', 'f', 'g',
-        'h', 'i', 'j', 'k', 'l', 'm', 'n',
-        'o', 'p', 'q', 'r', 's', 't', 'u',
-        'v', 'w', 'x', 'y', 'z', ' '
-    ]
+_seed = 1
+def getRandom(minVal, maxVal):
+  global _seed
+  _seed = (_seed * 9301 + 49297) % 233280
+  rnd = _seed / 233280
+  return int (minVal + rnd * (maxVal - minVal + 1))
 
-    for character in string:
-        if character.lower() in alphabet:
-            cleanText += character
-    return cleanText
+def getByDifficulty(difficulty = "default"):
+  levels = {
+    "default":[0, 150],
+    "facil":[0, 25],
+    "medio":[26, 75],
+    "dificil":[76, 150]
+  }
+  return levels[difficulty]
+
+def calc(num1, num2, operator):
+  if operator == "+":
+    return num1 + num2
+  elif operator == "-":
+      return num1 - num2
+  elif operator == "*":
+      return num1 * num2
+  elif operator == "/":
+      if num2 == 0:
+          return None  # Prevenimos que se divida por cero (porque no se puede, duh)
+      return num1 // num2
+  else:
+      return None
+
+def handleMath(exercise):
+  # Le pongo un guión bajo al inicio porque "continue" es una keyword (o sea, una palabra reservada)
+  _continue = True
+  while _continue:
+    points = 0
+
+    if exercise == 3:
+      minVal, maxVal = 0, 100
+      operator = "+"
+    elif exercise >= 4:
+      diff = input("Elija nivel (facil, medio, dificil): ").lower()
+      minVal, maxVal = getByDifficulty(diff)
+
+      if exercise == 4:
+        operator = "+"
+      elif exercise >= 5:
+        operator = input("Elija operación (+, -, *, /): ")
+    
+    for x in range(1, 11):
+      num1 = getRandom(minVal, maxVal)
+      num2 = getRandom(minVal, maxVal)
+      
+      if operator == "/" and num2 == 0:
+        num2 = 1
+      
+      result = calc(num1, num2, operator)
+      if result is None:
+        print("Error interno en el cálculo.")
+        continue
+
+      print(f"{x} ¿Cuánto es {num1} {operator} {num2}?")
+      try:
+        response = int(input("R => "))
+        if response == result:
+          print("Correcto!\n")
+          points = points + 1
+        else:
+          print(f"Incorrecto... La respuesta era {result}")
+      except:
+         print("Ingresaste un valor inválido.\n")
+    print(f"\n Puntaje: {points}/10")
+    if exercise == 6:
+       again = input("¿Desea seguir practicando? (s/n): ").lower()
+       if again != "s":
+          _continue = False
+    else:
+       _continue = False
+
+def removeSpecialCharacters(string):
+  cleanText = ""
+  alphabet = [
+      'a', 'b', 'c', 'd', 'e', 'f', 'g',
+      'h', 'i', 'j', 'k', 'l', 'm', 'n',
+      'ñ', 'o', 'p', 'q', 'r', 's', 't',
+      'u', 'v', 'w', 'x', 'y', 'z', ' '
+  ]
+
+  for character in string:
+      if character.lower() in alphabet:
+          cleanText += character
+  return cleanText
 
 def countVowels(string):
-    vowels = {"a":0, "e":0, "i":0, "o":0, "u":0}
-    
-    for letter in string:
-        if letter in vowels:
-            vowels[letter] += 1
-    return vowels
+  vowels = {"a":0, "e":0, "i":0, "o":0, "u":0}
+  
+  for letter in string:
+      if letter in vowels:
+          vowels[letter] += 1
+  return vowels
 
 def countWords(string):
-    return len(string.split(' '))
+  return len(string.split(' '))
 
 def countWordsThatStartByM(words):
-    words = words.split(' ')
-    count = 0
-    for word in words:
-        if word[0].lower() == 'm':
-            count += 1
-    return count
+  words = words.split(' ')
+  count = 0
+  for word in words:
+      if word[0].lower() == 'm':
+          count += 1
+  return count
 
 def handleFirstExercise():
   year = int(input("Por favor, ingrese un año: "))
@@ -58,11 +136,22 @@ def handleSecondExercise():
   print(f"Vocal más repetida: {vowelMax} ({vowelMaxValue})")
   print(f"Vocal menos repetida: {vowelMin} ({vowelMinValue})")
 
-def handleThirdExercise():
-   pass
+def startAgain():
+  # Hago todo esto en una línea porque es más cómodo hacerlo de esta manera.
+  if(input("¿Te gustaría volver al menú?\ns/n: ").lower() == "s"):
+    main()
+  else:
+    print("¡Nos vemos!")
 
-def handleLastThreeExercises():
-   pass
+def exerciseHandler(exercise):
+    # Lo que estoy haciendo acá, es crear un array que contenga todas las funciones que procesan los ejercicios
+    exercises = [handleFirstExercise, handleSecondExercise]
+    # Cuando le paso el index (que representa la opción que quiere realizar)
+    exercises[exercise]()
+    if input("¿Reiniciar? s/n: ") == "s":
+      return exerciseHandler(exercise)
+    else:
+      print("¡Nos vemos!")
 
 def main():
   print("Bienvenido al programa de Martín Ezequiel Monzón para el segundo parcial.\n")
@@ -76,19 +165,14 @@ def main():
   print("Ejercicio 6: Al programa del ejercicio 5, modificarlo para que al finalizar las 10 operaciones se le indique al usuario el puntaje acumulado, se lo felicita y consulta si desea seguir practicando, en cuyo caso deberá nuevamente elegir la operación matemática y el nivel de dificultad y proceder a seguir practicando, y así sucesivamente hasta que elija no continuar practicando.")
 
   exercise = int(input("Escoja un ejercicio a realizar (del 1 al 6): "))
-  if exercise > 0 and exercise < 7:
+  if exercise > 0 and exercise < 4:
     exercise = exercise - 1
-    # Lo que estoy haciendo acá, es crear un array que contenga todas las funciones que procesan los ejercicios
-    exerciseHandler = [handleFirstExercise, handleSecondExercise]
-    # Cuando le paso el index (que representa la opción que quiere realizar)
-    print(f"exercise {exercise}")
-    exerciseHandler[exercise]()
+    exerciseHandler(exercise)
+  elif exercise >= 4 and exercise < 7:
+     handleMath(exercise)
   else:
      print("Me parece que no ingresaste ningún ejercicio disponible...")
-  restart = input("¿Reiniciar? s/n: ")
-  if restart == "s":
-    return main()
-  else:
-     print("¡Nos vemos!")
+     main()
+  startAgain()
 
 main()

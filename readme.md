@@ -1,7 +1,34 @@
 # LÓGICA - Segundo Parcial
 > Recordar que, la profesora mencionó que hay que programar este proyecto imaginando un escenario donde no ocurra ningún error con la información introducida.
 
+- Para no complicarnos las cosas, no utilizaremos librerías.
+
+## PSEUDO-CÓDIGO:
 ```
+Definimos una variable seed
+
+--- FUNCIONES MATEMÁTICAS---
+FUNCIÓN getRandom(int, int):
+  Usamos la seed global para generar un número medianamente random entre dos números recibidos (min y max)
+
+FUNCIÓN getByDifficulty(string):
+  Definir un diccionario con los niveles:
+    - "Fácil" -> [0, 25]
+    - "Medio" -> [26, 75]
+    - "Dificil" -> [76, 150]
+    - "Default" -> [0, 150]
+  Devolver los valores según la dificultad solicitada
+
+FUNCIÓN calc(int, int, str):
+  Según el string operador:
+    "+" -> retornar la suma entre el primer int y el segundo
+    "-" -> retornar la resta entre el primer int y el segundo
+    "*" -> retornar la multiplicación entre el primer int y el segundo
+    "/" -> retornar la división entre el primer int y el segundo
+  Si el operador no es válido o simplemente el segundo int es cero, entonces retornar None
+
+--- FUNCIONES DEL PROCESAMIENTO DE TEXTO ---
+
 FUNCIÓN removeSpecialCharacters(str):
   Inicializar cleanText como string vacío
   Definir una lista llamada alphabet con las letras (en lowercase) del abecedario (y el espacio)
@@ -27,6 +54,8 @@ FUNCIÓN countWordsThatStartByM(str):
     SI la primera letra de la palabra (transformada a lower de vuelta) inicia en "m":
       Incrementar el contador
     RETORNAR el contador
+
+--- FUNCIONES DE LOS EJERCICIOS ---
 
 FUNCIÓN handleFirstExercise():
   Pedir al usuario que ingrese un año (convertirlo a entero)
@@ -72,8 +101,42 @@ FUNCIÓN exerciseHandler(int):
   SINO:
     print mensaje de despedida
 
-FUNCIÓN handleLastExercises():
-  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FUNCIÓN handleMath(int <ejercicio>):
+  inicializar una variable <continue> en TRUE, que se utiliza para continuar un bucle.
+
+  MIENTRAS <continue> SEA True:
+    iniciar una variable "puntos" en cero
+
+    SI el ejercicio ES IGUAL A 3:
+      Inicializar una variable operación en "+"
+      Inicializar un array de rangos con [0, 100]
+    
+    SI el ejercicio ES IGUAL (o mayor) A 4:
+      Inicializar una variable "dificultad" y pedirle al usuario que introduzca uno, en tres valoers: "facil", "medio" y "dificil".
+      Obtener minVal y maxVal según el nivel llamando a getByDifficulty
+
+      SI el ejercicio ES IGUAL A  4:
+        el operador será "+"
+      SINO SI el ejercicio es igual (o mayor) A 5:
+        el operador será uno definido por el usuario (+, -, *, /)
+    REPETIR 10 VECES:
+      Generar num1 y num2 con getRandom (pasándole a getRandom minVal y maxVal)
+
+    SI el operador es "/" y el número 2 es 0:
+      cambiar el número 2 a 1 (para evitar un error en el cálculo y noo dividir por cero)
+    
+    calcular el resultado con Calc (pasándole el primer y segundo número, así como el operador)
+    Pedirle al usuario el resultado y almacenarlo en una variable
+
+    Comparar el resultado correcto con el resultado obtenido del usuario
+    SI resultadoCalculado es igual a resultadoPreguntado:
+      incrementar el puntaje
+    Mostrar
+    Mostrar si fue correcto o no.
+    Mostrar el puntaje final
+    SI el ejercicio es 6:
+      Preguntarle al usuario si quiere seguir practicando
+      SI no quiere -> salir del bucle
 
 FUNCIÓN main()
   Mostrar introducción con descripción de todos los ejercicios
@@ -82,7 +145,7 @@ FUNCIÓN main()
     Restarle a la variable que contiene el ejercicio: 1
     pasarle a ExerciseHandler el ejercicio a ejecutar
   SINO SI el número es mayor o igual a 4 pero menor que 7:
-    llamar a handleLastExercises()
+    llamar a handleMath() y pasarle el número
   SINO:
     print mensaje de error y volver a llamar a Main
   Llamar a StartAgain()

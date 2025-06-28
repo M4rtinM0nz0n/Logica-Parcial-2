@@ -12,6 +12,7 @@ def getByDifficulty(difficulty = "default"):
     "medio":[26, 75],
     "dificil":[76, 150]
   }
+
   return levels[difficulty]
 
 def calc(num1, num2, operator):
@@ -30,6 +31,7 @@ def calc(num1, num2, operator):
 
 # --- FUNCIONES DE PROCESAMIENTO DE TEXTO ---
 
+#  ------- EXPLICAR LA FUNCIONALIDAD --------
 def removeSpecialCharacters(string):
   cleanText = ""
   alphabet = [
@@ -71,11 +73,12 @@ def handleFirstExercise():
     if(year % 100 != 0) or (year % 100 == 0 and year % 400 == 0):
       print("Es año bisiesto")
     else:
-      print("No es un año bisiesto")        
+      print("No es un año bisiesto")
   else:
       print("No es un año bisiesto")
 
 def handleSecondExercise():
+
   words = input("Por favor, ingrese el texto: ")
   words = words.split('.')[0]
   cleanString = removeSpecialCharacters(words)
@@ -128,10 +131,10 @@ def handleMath(exercise):
     for x in range(1, 11):
       num1 = getRandom(minVal, maxVal)
       num2 = getRandom(minVal, maxVal)
-      
+
       if operator == "/" and num2 == 0:
         num2 = 1
-      
+
       result = calc(num1, num2, operator)
       if result is None:
         print("Error interno en el cálculo.")
@@ -156,7 +159,7 @@ def handleMath(exercise):
        _continue = False
 
 def main():
-  print("Bienvenido al programa de Martín Ezequiel Monzón para el segundo parcial.\n")
+  print("Bienvenido al programa de Martín Ezequiel Monzón, Facundo Bellochi y Thiago Alegre para el segundo parcial.\n")
   print("Ejercicio 1: Un programa que dado un año indique si es o no bisiesto, debe utilizar sentencias condicionales anidadas.\n")
   print("Ejercicio 2: Un programa que lea caracteres hasta el “.”, al finalizar se desea saber: \n   a) Cuantas vocales ingreso.\n   b) Cuantas palabras ingreso.\n   c) Cuantas palabras que empiezan con “M” ingreso.\n   d) Que vocal es la que se ingresó más veces\n   e) Que vocal es la que se ingresó menos veces.\n")
   

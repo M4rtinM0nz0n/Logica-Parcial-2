@@ -31,7 +31,6 @@ def calc(num1, num2, operator):
 
 # --- FUNCIONES DE PROCESAMIENTO DE TEXTO ---
 
-#  ------- EXPLICAR LA FUNCIONALIDAD --------
 def removeSpecialCharacters(string):
   cleanText = ""
   alphabet = [
@@ -41,9 +40,13 @@ def removeSpecialCharacters(string):
       'u', 'v', 'w', 'x', 'y', 'z', ' '
   ]
 
+  accents = {'á':'a', 'é':'e', 'í':'i', 'ó':'o', 'ú':'u'}
+
   for character in string:
-      if character.lower() in alphabet:
-          cleanText += character
+    if character.lower() in alphabet:
+      cleanText += character
+    elif character.lower() in accents:
+        cleanText += accents[character]
   return cleanText
 
 def countVowels(string):

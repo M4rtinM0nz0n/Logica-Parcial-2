@@ -31,7 +31,6 @@ def calc(num1, num2, operator):
 
 # --- FUNCIONES DE PROCESAMIENTO DE TEXTO ---
 
-#  ------- EXPLICAR LA FUNCIONALIDAD --------
 # Glosario:
 # Función = Código Reutilizable, se define utilizando "def"
 # Parámetro = Valor que recibe una función. Este valor se convierte en una variable que almacena ese valor, y se puede ir llamando dentro de la función
